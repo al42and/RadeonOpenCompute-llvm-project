@@ -4405,6 +4405,10 @@ static void renderDebugOptions(const ToolChain &TC, const Driver &D,
 
   renderDwarfFormat(D, T, Args, CmdArgs, EffectiveDWARFVersion);
   RenderDebugInfoCompressionArgs(Args, CmdArgs, D, TC);
+
+  bool EmitDwarfForAMDGCN = EmitDwarf && T.isAMDGCN();
+  if (EmitDwarfForAMDGCN)
+    CmdArgs.append({"-mllvm", "-amdgpu-spill-cfi-saved-regs"});
 }
 
 void Clang::ConstructJob(Compilation &C, const JobAction &JA,
